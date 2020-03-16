@@ -1,13 +1,18 @@
 #ifndef NAVE_H
 #define NAVE_H
-#include <SFML/Audio.hpp>
+//#include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
+#include "Lista.h"
+#include "Bullet.h"
 class Nave
 {
 	public:
 		sf::Sprite *sprite;
 		sf::Texture texture;
+		sf::Texture texture2;
 		sf::Vector2i orientacion;
+		Lista<Bullet> bullets ;
+		
 		int x;
 		int y;
 		Nave(){
@@ -15,6 +20,7 @@ class Nave
 			    if (!texture.loadFromFile("nave.png")){
 			    	//std::cout<<"error en la carga de imagen ";
 			}
+			texture2.loadFromFile("bullet.png");
 			x=400;y=300;
 			sprite= new sf::Sprite(texture);
 			sprite->scale(.5,.5);
@@ -25,6 +31,9 @@ class Nave
 			
 		}
 		
+		void shoot(sf::Vector2i posicion,sf::Vector2i director);
+		void actualizar(Bullet bullet);
+		void Draw(sf::RenderWindow &window);
 		
 		
 		

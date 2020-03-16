@@ -3,9 +3,6 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include <pthread.h>
-#include <windows.h>
-#include <stdio.h>
 #include <conio.h>
 #include "Nave.h"
 #include "math.h"
@@ -13,22 +10,23 @@ class Juego
 {
 	public:
 		sf::RenderWindow *window;
-		pthread_t graficos;
 		static int const  ALTO=600;
 		static int const ANCHO=800;
 		Nave nave;
 		sf::Vector2i mouse_position;
-		sf::Vector2f direccion;
+		sf::Vector2f director;
+		sf::Texture texture3;
+		sf::Sprite *bullet;
+		sf::Event event;
+		Lista<Bullet> bullets;
 		int alpha;
 		float delta;
 		
 		Juego();
 		~Juego();
-
-		
-		void Iniciar();
-		void Detener();
+		void Events_controller();
 		void Mouse_Controller();
+		void GameLoop();
 	protected:
 };
 
