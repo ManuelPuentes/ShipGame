@@ -3,45 +3,47 @@
 Juego::Juego()
 {
 
-	this->window = new sf::RenderWindow(sf::VideoMode(ANCHO,ALTO),"Juego");
-	if(!texture3.loadFromFile("bullet.png"))std::cout<<":C"<<std::endl;
+	window= new sf::RenderWindow(sf::VideoMode(ANCHO,ALTO),"Juego");
+	texture3.loadFromFile("bullet.png");
 	bullet= new sf::Sprite(texture3);
-    
-	this->window->requestFocus();
 	window->setFramerateLimit(30);
+	window->requestFocus();
 	alpha=delta=0;
-	
-	
+	shooting= false;
+    
 	GameLoop();
-	
 	
 }
 void Juego::GameLoop(){
-	Bullet aux;
 	
 	while(window->isOpen()){
 		
 		window->clear();
 		Events_controller();
 		Mouse_Controller();
-    	window->draw(*nave.sprite);
-    	for(int i=0;i<bullets.getTam();i++){
-    		
-    		bullets.getTope(aux);
-    		if(!(aux.posicion.x==0 && aux.posicion.y==0)){
-    			bullet->setPosition(aux.posicion.x, aux.posicion.y);    		
-    			window->draw(*bullet);
-    			
-			}
-    		bullet->move(aux.director);
-    		aux.posicion.x +=aux.director.x*25;
-    		aux.posicion.y +=aux.director.y*25;
-    		bullets.InsertarFinal(aux);	
+		
+		if(shooting){
+			
+			bullets.push_back(Bullet(texture3,nave.orientacion,director));
+			std::cout<<bullets.size()<<std::endl;		
 		}
+    	
+    	i=bullets.begin();
+    	
+    	while(i!=bullets.end()){
+    		bullet->setPosition((*i).posicion.x, (*i).posicion.y);
+    		window->draw(*bullet);
+    		
+    		(*i).posicion.x+=(*i).director.x*25;
+    		(*i).posicion.y+=(*i).director.y*25;
+    		
+    		advance(i,1);	
+    		
+		}
+    	window->draw(*nave.sprite);
 		window->display();	
  }
 }
-
 void Juego::Events_controller(){
 	
 	while(window->pollEvent(event)){
@@ -52,19 +54,21 @@ void Juego::Events_controller(){
 				
 				window->close();
 				exit(1);
-				break;
+				break;	
 				
 			case sf::Event::MouseButtonPressed:
-				if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){
-					
-					if(!(nave.orientacion.x==0 && nave.orientacion.y==0 || director.x==0 && director.y==0)){
-						
-						bullets.InsertarFinal(Bullet(texture3,nave.orientacion,director));
-					}
-					
-				}
 				
-				break; 	
+				if(sf::Mouse::Left== event.mouseButton.button)
+					shooting=true;  // flag use to handle shots of the ship set true when left click is down
+					
+				break;
+			case sf::Event::MouseButtonReleased:
+				
+				if(sf::Mouse::Left== event.mouseButton.button)
+					shooting=false;// flag use to handle shots of the ship set false when left click is up
+					
+				break;				
+					
 			default :
 				break;	
 		}

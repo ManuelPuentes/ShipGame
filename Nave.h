@@ -2,7 +2,6 @@
 #define NAVE_H
 //#include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
-#include "Lista.h"
 #include "Bullet.h"
 class Nave
 {
@@ -11,7 +10,6 @@ class Nave
 		sf::Texture texture;
 		sf::Texture texture2;
 		sf::Vector2i orientacion;
-		Lista<Bullet> bullets ;
 		
 		int x;
 		int y;
