@@ -3,24 +3,30 @@
 //#include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include "Bullet.h"
+#include <list>
+#include <iostream>
 class Nave
 {
 	public:
+		static int const  ALTO=600;
+		static int const ANCHO=800;
 		sf::Sprite *sprite;
+		sf::Sprite *b_sprite;
 		sf::Texture texture;
 		sf::Texture texture2;
 		sf::Vector2i orientacion;
+		std::list<Bullet> bullets;
+		std::list<Bullet>::iterator i;
 		
 		int x;
 		int y;
 		Nave(){
 			
-			    if (!texture.loadFromFile("nave.png")){
-			    	//std::cout<<"error en la carga de imagen ";
-			}
+			texture.loadFromFile("nave.png");
 			texture2.loadFromFile("bullet.png");
 			x=400;y=300;
 			sprite= new sf::Sprite(texture);
+			b_sprite= new sf::Sprite(texture2);
 			sprite->scale(.5,.5);
 			sprite->setOrigin(texture.getSize().x/2, texture.getSize().y/2);
 			orientacion.x=400;
@@ -29,8 +35,8 @@ class Nave
 			
 		}
 		
-		void shoot(sf::Vector2i posicion,sf::Vector2i director);
-		void actualizar(Bullet bullet);
+		void shoot(sf::Vector2f director);
+		void actualizar();
 		void Draw(sf::RenderWindow &window);
 		
 		

@@ -4,8 +4,6 @@ Juego::Juego()
 {
 
 	window= new sf::RenderWindow(sf::VideoMode(ANCHO,ALTO),"Juego");
-	texture3.loadFromFile("bullet.png");
-	bullet= new sf::Sprite(texture3);
 	window->setFramerateLimit(30);
 	window->requestFocus();
 	alpha=delta=0;
@@ -23,23 +21,11 @@ void Juego::GameLoop(){
 		Mouse_Controller();
 		
 		if(shooting){
-			
-			bullets.push_back(Bullet(texture3,nave.orientacion,director));
-			std::cout<<bullets.size()<<std::endl;		
+			nave.shoot(director);			
+			std::cout<<nave.bullets.size()<<std::endl;		
 		}
-    	
-    	i=bullets.begin();
-    	
-    	while(i!=bullets.end()){
-    		bullet->setPosition((*i).posicion.x, (*i).posicion.y);
-    		window->draw(*bullet);
-    		
-    		(*i).posicion.x+=(*i).director.x*25;
-    		(*i).posicion.y+=(*i).director.y*25;
-    		
-    		advance(i,1);	
-    		
-		}
+		nave.Draw(*window);
+		nave.actualizar();
     	window->draw(*nave.sprite);
 		window->display();	
  }

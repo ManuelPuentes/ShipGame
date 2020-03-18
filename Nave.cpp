@@ -1,29 +1,33 @@
 #include "Nave.h"
 
-void Nave::shoot(sf::Vector2i posicion,sf::Vector2i director){
+void Nave::shoot(sf::Vector2f director){
+
+	bullets.push_back(Bullet(orientacion,director));
+}
+void Nave::actualizar(){
+	i=bullets.begin();
 	
-//	this->bullets.InsertarFinal( Bullet(texture2,posicion,director));
-//	std::cout<<"shoot "<<bullets.getTam()<<std::endl ;
+	while(i!=bullets.end()){
+		
+			(*i).posicion.x+=(*i).director.x*25;
+    		(*i).posicion.y+=(*i).director.y*25;
+    		
+    		if((*i).posicion.x >=ANCHO  || (*i).posicion.x<0 || (*i).posicion.y >=ALTO || (*i).posicion.y <0){
+    			
+    			bullets.erase(i);
+//    			std::cout<<"Bullet out of range was eliminated "<<std::endl;
+			} 	
+    		
+    		advance(i,1);	
+	}
 }
-
-void Nave::actualizar(Bullet bullet){
-//	for(int i=0;i<bullets.getTam();i++){
-//		
-//		bullets.getAt(bullet,i);
-//		bullet.Mover();
-//		bullets.InsertarFinal(bullet);
-//		bullet.Mover();
-////		std::cout<<i<<std::endl;
-//		
-//	}
-//	
-}
-
 void Nave::Draw(sf::RenderWindow &window){
+	i=bullets.begin();
 
-//
-//		for(int i=0;i<bullets.getTam();i++){
-//			
-//			bullets[i].Draw(window);
-//		}	
+	while(i!=bullets.end()){
+		
+		b_sprite->setPosition((sf::Vector2f)(*i).posicion);
+		window.draw(*b_sprite);
+		advance(i,1);
+	}	
 }
