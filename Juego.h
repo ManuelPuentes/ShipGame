@@ -19,6 +19,7 @@ class Juego
 		
 		
 		bool shooting;
+		bool mouse_flag;
 		
 		int alpha;
 		float delta;
