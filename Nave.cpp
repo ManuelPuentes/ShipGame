@@ -1,16 +1,36 @@
 #include "Nave.h"
 
 void Nave::shoot(){
+	sf::Vector2f director_aux;
+	director_aux=director;
+	int beta=0;
 	
-	bullets.push_back(Bullet(orientacion,director));
+	
+	switch(weapon){
+		case 1:
+			
+			bullets.push_back(Bullet(orientacion,director,false));
+			bullets.push_back(Bullet(orientacion,director,true));
+			break;
+			
+		default:
+			for(int i=0;i<30;i++){
+				director_aux.x=(cos(beta*DEGTORAD));
+				director_aux.y=-(sin(beta*DEGTORAD));
+				beta+=12 ;
+				bullets.push_back(Bullet(orientacion,director_aux));	
+				
+			}
+			break;	
+	}
 }
 void Nave::actualizar(){
 	i=bullets.begin();
 	
 	while(i!=bullets.end()){
 		
-			(*i).posicion.x+=(*i).director.x*25;
-    		(*i).posicion.y+=(*i).director.y*25;
+			(*i).posicion.x+=(*i).director.x*20;
+    		(*i).posicion.y+=(*i).director.y*20;
     		
     		if((*i).posicion.x >=ANCHO  || (*i).posicion.x<0 || (*i).posicion.y >=ALTO || (*i).posicion.y <0){
     			
@@ -36,20 +56,18 @@ void Nave::Mover(char e){
 	switch(e){
 		
 		case 'W':
-			if(orientacion.y>50){
 				
 			orientacion.x+=director.x*10;	
 			orientacion.y+=director.y*10;	
 			sprite->setPosition((sf::Vector2f)orientacion);
-			}
+			
 			break;
 		case 'S':
-			if(orientacion.y<550){
-				
+		
 			orientacion.x-=director.x*10;	
 			orientacion.y-=director.y*10;
 			sprite->setPosition((sf::Vector2f)orientacion);
-			}
+			
 			break;
 		case 'D':
 			(alpha>=5)?alpha-=5:alpha=355;

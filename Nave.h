@@ -21,13 +21,17 @@ class Nave
 		std::list<Bullet> bullets;
 		std::list<Bullet>::iterator i;
 		int alpha;
+		int weapon;
+		
+		bool flag;
+		
 		Nave(){
 			
-			texture.loadFromFile("F5S1.png");
+			texture.loadFromFile("nave.png");
 			texture2.loadFromFile("bullet.png");
 			sprite= new sf::Sprite(texture);
 			b_sprite= new sf::Sprite(texture2);
-//			sprite->scale(.6,.6);
+			sprite->scale(.4,.4);  
 			b_sprite->scale(.7,.7);
 			
 			director.x=0;
@@ -39,6 +43,8 @@ class Nave
 			orientacion.y=300;
 			sprite->setPosition((sf::Vector2f)orientacion);
 			alpha=90;
+			weapon=0;
+			flag=true;
 		}
 		
 		void shoot();

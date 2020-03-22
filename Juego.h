@@ -23,9 +23,11 @@ class Juego
 		
 		int alpha;
 		float delta;
+		int con;
 		
 		Juego();
 		~Juego();
+		void shootRoutine();
 		void Events_controller();
 		void Mouse_Controller();
 		void GameLoop();

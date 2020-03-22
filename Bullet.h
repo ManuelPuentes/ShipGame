@@ -2,6 +2,8 @@
 #define BULLET_H
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
+#include <iostream>
+#include "math.h"
 class Bullet
 {
 	public:
@@ -9,6 +11,7 @@ class Bullet
 		sf::Vector2f director;
 		Bullet(){};
 		Bullet(sf::Vector2i posicion, sf::Vector2f director);
+		Bullet(sf::Vector2i posicion, sf::Vector2f director, bool);
 	
 	protected:
 };
