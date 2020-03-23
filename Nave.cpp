@@ -9,16 +9,17 @@ void Nave::shoot(){
 	switch(weapon){
 		case 1:
 			
-			bullets.push_back(Bullet(orientacion,director,false));
-			bullets.push_back(Bullet(orientacion,director,true));
+			bullets.push_back(Bullet(orientacion,director,false,alpha-90,weapon));
+			bullets.push_back(Bullet(orientacion,director,true,alpha-90,weapon));
 			break;
 			
 		default:
 			for(int i=0;i<30;i++){
 				director_aux.x=(cos(beta*DEGTORAD));
 				director_aux.y=-(sin(beta*DEGTORAD));
+				bullets.push_back(Bullet(orientacion,director_aux,beta,weapon));	
 				beta+=12 ;
-				bullets.push_back(Bullet(orientacion,director_aux));	
+//				std::cout<<"beta es "<<beta<<"\n"; 
 				
 			}
 			break;	
@@ -41,8 +42,10 @@ void Nave::actualizar(){
 					sf::FloatRect tile((*e).posicion,tilesize);
 			
 					if(b_sprite->getGlobalBounds().intersects(tile)){
+						
+						animaciones.push_back(Animacion(texture4,4,4,64,64,(*e).posicion));
 						enemys.erase(e);
-						std::cout<<"se detecto una colision bullet/enemy \n";
+//						std::cout<<"se detecto una colision bullet/enemy \n";
 						band=true;
 						break; 
 					}		
@@ -67,22 +70,23 @@ void Nave::actualizar(){
 	
 	e=enemys.begin();
 	
-	
-	
 	while(e!=enemys.end()){
 		
 		(*e).Mover();
 		(*e).Mover();
 		
-		sf::FloatRect tile((*e).posicion,tilesize);
-		if(sprite->getGlobalBounds().intersects(tile)){
+		if((*e).posicion.y>=600){
+//			std::cout<<"enemy out of range \n";		
 			enemys.erase(e);
-			std::cout<<"se detecto una colision\n"; 
-		}		
-		
-//		sprite->getGlobalBounce().intersects();
+		}else{
+			
+			sf::FloatRect tile((*e).posicion,tilesize);
+			if(sprite->getGlobalBounds().intersects(tile)){
+				enemys.erase(e);
+//				std::cout<<"se detecto una colision\n"; 
+			}					
+		}
 		advance(e,1);
-		
 	}
 	
 	
@@ -93,9 +97,39 @@ void Nave::Draw(sf::RenderWindow &window){
 	while(i!=bullets.end()){
 		
 		b_sprite->setPosition((sf::Vector2f)(*i).posicion);
-		window.draw(*b_sprite);
+			 
+			 switch((*i).weapon_origin){
+			 	
+			 	case 0:
+			 		b_sprite->setRotation(-(*i).alpha+90);
+			 		break;
+			 		
+			 	case 1:
+			 		b_sprite->setRotation(-(*i).alpha);
+				 	break;	
+			 	
+			 	default:
+			 		break;
+			 	
+			 }
+			window.draw(*b_sprite);
+			
+			b_sprite->setRotation(0);
 		advance(i,1);
-	}	
+	}
+	
+	//animaciones update
+	
+		a=animaciones.begin();
+		
+		while(a!=animaciones.end()){
+			
+			if((*a).pos<15){
+				(*a).update();
+				window.draw((*a).sprite);
+			}
+			advance(a,1);
+		}		
 }
 void Nave::Mover(char e){
 	

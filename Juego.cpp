@@ -50,14 +50,18 @@ void Juego::GameLoop(){
 		}
     	
 		window->display();
-//		time++;
+		time++;
 //		
 //		if(time% (fps*5)==0){
 //			
 //			std::cout<<"Rafaga de enemigos"<<std::endl;
+//			
+//			
 //			time=0;
 //		}
-		
+		if(time%15==0){
+			nave.enemys.push_back(Enemy1());
+		}
 		
  }
 }
@@ -77,10 +81,14 @@ void Juego::Events_controller(){
 				con=30;
 			}
 			
-			if(event.key.alt){
+			if(event.type== sf::Event::KeyPressed){
 				
-				std::cout<<"Alt\n";
-				nave.enemys.push_back(Enemy1());
+				
+				if(event.key.alt){
+					
+//					std::cout<<"Alt\n";
+					nave.enemys.push_back(Enemy1());
+				}
 			} 			
 	}	
 }

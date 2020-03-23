@@ -4,7 +4,9 @@
 #include <SFML/Graphics.hpp>
 #include "Bullet.h"
 #include "Enemy1.h"
+#include "Animacion.h"
 #include <list>
+#include <vector>
 #include <iostream>
 #include <math.h>
 class Nave
@@ -16,13 +18,25 @@ class Nave
 		sf::Sprite *sprite;
 		sf::Sprite *b_sprite;
 		sf::Sprite *e_sprite;
+		sf::Sprite *a_sprite;
+		
+		
+		
 		sf::Texture texture;//nave
 		sf::Texture texture2;//bullet
 		sf::Texture texture3;//enemy
+		sf::Texture texture4;//animation
+		
 		sf::Vector2i orientacion;
 		sf::Vector2f director;
 		std::list<Bullet> bullets;
 		std::list<Bullet>::iterator i;
+		
+		
+		std::list<Animacion> animaciones;
+		std::list<Animacion>::iterator a;
+		
+		
 		int alpha;
 		int weapon;
 		
@@ -34,15 +48,19 @@ class Nave
 		
 		Nave(){
 			
-			texture.loadFromFile("nave.png");
-			texture2.loadFromFile("bullet.png");
+			texture.loadFromFile("assets/nave.png");
+			texture2.loadFromFile("assets/missil.png");
+			texture3.loadFromFile("assets/hola.png");
+			texture4.loadFromFile("assets/exp.png");
+						
+			
 			sprite= new sf::Sprite(texture);
 			b_sprite= new sf::Sprite(texture2);
-			e_sprite= new sf::Sprite(texture2);
-			
-			e_sprite->setColor(sf::Color::Red);
+			e_sprite= new sf::Sprite(texture3);
+
 			sprite->scale(.4,.4);  
 			b_sprite->scale(.7,.7);
+			e_sprite->scale(.3,.3);
 			
 			director.x=0;
 			director.y=-1;
@@ -53,16 +71,16 @@ class Nave
 			orientacion.y=300;
 			sprite->setPosition((sf::Vector2f)orientacion);
 			alpha=90;
-			weapon=0;
+			weapon=1;
 			flag=true;
 		}
+		
 		
 		void shoot();
 		void actualizar();
 		void Draw(sf::RenderWindow &window);
 		void Mover(char e);
 		void detectarColisiones();
-		
 	protected:
 };
 

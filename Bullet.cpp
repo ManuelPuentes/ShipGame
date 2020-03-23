@@ -1,10 +1,12 @@
 #include "Bullet.h"
 
 
-Bullet::Bullet(sf::Vector2i posicion, sf::Vector2f director, bool lado){
+Bullet::Bullet(sf::Vector2i posicion, sf::Vector2f director, bool lado , int alpha, int weapon){
 
 	this->posicion=posicion;
 	this->director=director;
+	this->alpha= alpha;
+	this->weapon_origin=weapon;
 	
 	if(lado){
 		this->posicion.x-=35*cos(acos(director.y));
@@ -18,10 +20,12 @@ Bullet::Bullet(sf::Vector2i posicion, sf::Vector2f director, bool lado){
 	}
 	
 }
-Bullet::Bullet(sf::Vector2i posicion, sf::Vector2f director){
+Bullet::Bullet(sf::Vector2i posicion, sf::Vector2f director,int alpha , int weapon){
 
+	this->alpha=alpha;
 	this->posicion=posicion;
 	this->director=director;
+	this->weapon_origin=weapon;
 	
 }
 

@@ -9,9 +9,11 @@ class Bullet
 	public:
 		sf::Vector2i posicion;
 		sf::Vector2f director;
+		int alpha;
+		int weapon_origin;
 		Bullet(){};
-		Bullet(sf::Vector2i posicion, sf::Vector2f director);
-		Bullet(sf::Vector2i posicion, sf::Vector2f director, bool);
+		Bullet(sf::Vector2i posicion, sf::Vector2f director,int,int);
+		Bullet(sf::Vector2i posicion, sf::Vector2f director, bool,int,int);
 	
 	protected:
 };
